@@ -1,0 +1,1 @@
+# The Stock Service of Retail in future
