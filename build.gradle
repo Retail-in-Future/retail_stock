@@ -11,7 +11,7 @@ apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 
 jar {
-    baseName = 'retail-stock'
+    baseName = 'retail_stock'
     version = '0.0.1'
 }
 
@@ -28,4 +28,5 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-web', version:'4.3.5.RELEASE'
     compile group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version:'1.4.3.RELEASE'
     compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version:'1.0.0.Final'
+    compile group: 'org.keycloak', name: 'keycloak-spring-boot-starter', version:'3.2.0.Final'
 }

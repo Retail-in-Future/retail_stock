@@ -32,10 +32,5 @@ public class StockContoller {
 
         return stockService.save(stockInfo);
     }
-
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login() {
-        return "login";
-    }
     
 }

@@ -13,6 +13,7 @@ set -o errexit -o nounset \
 \
 && echo ">>>========= run build in container" \
 && rm -rf build/* \
+&& service mysql start \
 && ./gradlew build \
 \
 && echo ">>>========= changing artifacts owner" \
