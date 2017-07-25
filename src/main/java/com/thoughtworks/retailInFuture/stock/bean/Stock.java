@@ -1,46 +1,58 @@
 package com.thoughtworks.retailInFuture.stock.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "Stock")
+@Table(name = "stock")
 @ApiModel(value="stockInfo")
 public class Stock {
 
     @ApiModelProperty(hidden = true)
+    @JsonIgnore
     private long id;
 
-    private String sku;
+    @JsonIgnore
+    private long productId;
 
-    private String unit;
+
+    public Product product;
+
+    private long stockOut;
 
     private long amount;
 
     private float price;
 
 
-    private long stockOut;
-
-    public Stock() {
+    @GenericGenerator(name = "generator", strategy = "foreign")
+    @GeneratedValue(generator = "generator")
+    public long getProductId() {
+        return productId;
     }
 
-    public Stock(long id, String sku, String unit, long amount, float price, long stockOut) {
+    public void setProductId(long productId) {
+        this.productId = productId;
+    }
+
+    public void setId(long id) {
         this.id = id;
-        this.sku = sku;
-        this.unit = unit;
-        this.amount = amount;
-        this.price = price;
-        this.stockOut = stockOut;
     }
 
-    public Stock(String sku, String unit, long amount, float price, long stockOut) {
-        this.sku = sku;
-        this.unit = unit;
-        this.amount = amount;
-        this.price = price;
-        this.stockOut = stockOut;
+    @OneToOne(fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn
+    @JsonManagedReference
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     @Id
@@ -52,22 +64,6 @@ public class Stock {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getSku() {
-        return sku;
-    }
-
-    public void setSku(String sku) {
-        this.sku = sku;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
     }
 
     public long getAmount() {

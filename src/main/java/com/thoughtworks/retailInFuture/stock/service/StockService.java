@@ -14,7 +14,7 @@ public class StockService {
     private StockRepository stockRepository;
 
     public Stock find(String sku) {
-        return stockRepository.findFirstBySku(sku);
+        return stockRepository.findFirstByProductId(sku);
     }
 
 
@@ -31,5 +31,9 @@ public class StockService {
 
         return stockRepository.stockOutBySku(stockOut, sku);
 
+    }
+
+    public java.util.List<Stock> findAll() {
+        return stockRepository.findAll();
     }
 }

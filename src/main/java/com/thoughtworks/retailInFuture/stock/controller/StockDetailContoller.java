@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/products/{sku}/stock/")
+@RequestMapping("/stocks/{sku}/")
 @Api(value = "stock management", description = "The stock management of Retail in future")
-public class StockContoller {
+public class StockDetailContoller {
 
     @Autowired
     private StockService stockService;
