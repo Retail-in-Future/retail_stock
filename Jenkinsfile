@@ -2,7 +2,7 @@
 pipeline {
     agent any
     stages {
-        stage('Test') {
+        stage('Build') {
             steps {
                 sh 'scripts/jenkins/build.sh'
             }
