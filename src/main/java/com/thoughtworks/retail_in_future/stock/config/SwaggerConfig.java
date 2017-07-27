@@ -1,4 +1,4 @@
-package com.thoughtworks.retailInFuture.stock.config;
+package com.thoughtworks.retail_in_future.stock.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ public class SwaggerConfig {
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.thoughtworks.retailInFuture.stock.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.thoughtworks.retail_in_future.stock.controller"))
                 .build()
                 .apiInfo(metaData());
     }

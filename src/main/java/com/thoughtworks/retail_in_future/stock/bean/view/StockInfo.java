@@ -1,23 +1,22 @@
-package com.thoughtworks.retailInFuture.stock.bean.view;
+package com.thoughtworks.retail_in_future.stock.bean.view;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.thoughtworks.retailInFuture.stock.bean.Product;
+import com.thoughtworks.retail_in_future.stock.bean.Product;
 
 public class StockInfo {
 
 
     @JsonIgnore
     private Product product;
+
+    @JsonProperty("SKU")
     private long sku;
     private String productName;
     private String productCode;
 
-    @JsonProperty("amount")
-    private String stock;
-    @JsonProperty("stockOut")
-    private String sold;
-    @JsonProperty("price")
+    private String amount;
+    private String stockOut;
     private float price;
 
     @JsonProperty("product")
@@ -56,20 +55,20 @@ public class StockInfo {
         this.productCode = productCode;
     }
 
-    public String getStock() {
-        return stock;
+    public String getAmount() {
+        return amount;
     }
 
-    public void setStock(String stock) {
-        this.stock = stock;
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 
-    public String getSold() {
-        return sold;
+    public String getStockOut() {
+        return stockOut;
     }
 
-    public void setSold(String sold) {
-        this.sold = sold;
+    public void setStockOut(String stockOut) {
+        this.stockOut = stockOut;
     }
 
     public float getPrice() {

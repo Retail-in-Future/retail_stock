@@ -1,5 +1,5 @@
 CREATE TABLE `product` (
-  `id` bigint(10) NOT NULL AUTO_INCREMENT,
+  `id` bigint(10) NOT NULL,
   `name` varchar(25) DEFAULT NULL,
   `code` varchar(25) DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -11,7 +11,6 @@ CREATE TABLE `stock` (
   `amount` bigint(10) DEFAULT NULL,
   `stock_out` bigint(10) DEFAULT NULL,
   `product_id` bigint(10),
-    INDEX pro_ind (product_id),
     FOREIGN KEY (product_id)
         REFERENCES product(id)
         ON DELETE CASCADE ON UPDATE CASCADE,

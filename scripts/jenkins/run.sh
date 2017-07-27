@@ -9,3 +9,4 @@ docker build -t $DOCKER_IMAGE ./
 
 echo ">>>========= run application in docker container"
 docker run -it -v gradle-cache:/root/.gradle -p 8081:8081 --rm $DOCKER_IMAGE ./gradlew bootrun
+

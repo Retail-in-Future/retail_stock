@@ -1,6 +1,7 @@
-package com.thoughtworks.retailInFuture.stock.bean;
+package com.thoughtworks.retail_in_future.stock.bean;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 
@@ -9,14 +10,16 @@ import javax.persistence.*;
 public class Product {
 
     @Id
+    @JsonProperty("sku")
     private long id;
 
+    @JsonProperty("productName")
     private String name;
 
+    @JsonProperty("productCode")
     private String code;
 
-    @OneToOne(cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY, optional = false)
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY, optional = false)
     @PrimaryKeyJoinColumn
     @JsonBackReference
     private Stock stock;

@@ -1,4 +1,4 @@
-package com.thoughtworks.retailInFuture.stock;
+package com.thoughtworks.retail_in_future.stock;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

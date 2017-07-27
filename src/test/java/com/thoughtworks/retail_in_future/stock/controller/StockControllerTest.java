@@ -1,9 +1,9 @@
-package com.thoughtworks.retailInFuture.stock.controller;
+package com.thoughtworks.retail_in_future.stock.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.thoughtworks.retailInFuture.stock.bean.Product;
-import com.thoughtworks.retailInFuture.stock.bean.Stock;
-import com.thoughtworks.retailInFuture.stock.service.StockService;
+import com.thoughtworks.retail_in_future.stock.bean.Product;
+import com.thoughtworks.retail_in_future.stock.bean.Stock;
+import com.thoughtworks.retail_in_future.stock.service.StockService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -48,7 +48,8 @@ public class StockControllerTest {
 
         Map object = new ObjectMapper().convertValue(data.get(0), Map.class);
 
-        assertEquals("12345", object.get("sku").toString());
+        System.out.println(object);
+        assertEquals("12345", object.get("SKU").toString());
         assertEquals("cat", object.get("productName"));
         assertEquals("cat---1", object.get("productCode"));
         assertEquals("100", object.get("amount").toString());
