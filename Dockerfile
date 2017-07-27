@@ -1,7 +1,7 @@
 FROM openjdk:8-jdk
 
 RUN apt-get update && apt-get install -y mysql-server
-RUN service mysql start && mysqladmin -u root password 'dev' && mysqladmin -u root create retail
+RUN service mysql start && mysqladmin -u futureretail password 'futureretail' && mysqladmin -u root create retail
 
 ENV PROJECT_PATH=/root/project
 COPY build.gradle gradlew $PROJECT_PATH/
