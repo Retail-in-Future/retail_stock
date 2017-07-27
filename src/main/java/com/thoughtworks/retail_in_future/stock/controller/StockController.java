@@ -64,11 +64,10 @@ public class StockController {
     @RequestMapping(value = "{sku}/", method= RequestMethod.POST, produces = "application/json")
     public Stock create(
             @ApiParam(value = "sku", required = true)
-            @PathVariable("sku") String sku,
+            @PathVariable("sku") long sku,
             @RequestBody Stock stock
     ){
         //TODO check the sku is existed in the Product
-//        stock.setId(Math.abs(new Random().nextLong()));
         return stockService.save(stock);
     }
 
