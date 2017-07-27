@@ -8,4 +8,4 @@ DOCKER_IMAGE=`echo "local/$APP_NAME:latest" | tr "[:upper:]" "[:lower:]"`
 docker build -t $DOCKER_IMAGE ./
 
 echo ">>>========= run application in docker container"
-docker run -it -v gradle-cache:/root/.gradle -p 10002:10002 --rm $DOCKER_IMAGE ./gradlew clean assemble
+docker run -v gradle-cache:/root/.gradle --rm $DOCKER_IMAGE ./gradlew clean assemble
