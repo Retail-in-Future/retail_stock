@@ -48,7 +48,6 @@ public class StockControllerTest {
 
         Map object = new ObjectMapper().convertValue(data.get(0), Map.class);
 
-        System.out.println(object);
         assertEquals("12345", object.get("SKU").toString());
         assertEquals("cat", object.get("productName"));
         assertEquals("cat---1", object.get("productCode"));

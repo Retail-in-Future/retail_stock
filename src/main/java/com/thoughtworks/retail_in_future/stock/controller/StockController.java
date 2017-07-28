@@ -2,6 +2,7 @@ package com.thoughtworks.retail_in_future.stock.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.thoughtworks.retail_in_future.stock.bean.Product;
 import com.thoughtworks.retail_in_future.stock.bean.Stock;
 import com.thoughtworks.retail_in_future.stock.bean.view.StockInfo;
 import com.thoughtworks.retail_in_future.stock.exception.NotFoundException;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,13 +33,31 @@ public class StockController {
     @RequestMapping(method= RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Map<String, Object>> list(){
 
-        List<StockInfo> stockInfoList = stockService.findAll().
-                stream().map(r -> new ObjectMapper().convertValue(r, StockInfo.class))
+        List<StockInfo> allProduct = new ArrayList<>();
+        List<Stock> stockList = stockService.findAll();
+
+        List<Long> productIds = stockList.stream().map(s -> s.getProductId()).collect(toList());
+        List<Product> productList = stockService.findAllProduct();
+
+        List<StockInfo> productWithoutStock = productList.stream().filter(s -> !productIds.contains(s.getId())).map(product -> new StockInfo(product)).collect(toList());
+
+        List<StockInfo> productWithStock = stockList.
+                stream().map(stock -> new StockInfo(stock))
                 .collect(toList());
 
+
+        allProduct.addAll(productWithoutStock);
+        allProduct.addAll(productWithStock);
+
         Map<String, Object> objectMap = new HashMap<>();
+
+        List<StockInfo> stockListResult = allProduct.stream()
+                .sorted((e1, e2) -> Long.compare(e1.getSku(),
+                        e2.getSku())).collect(toList());
+
         objectMap.put("result", 1);
-        objectMap.put("data", stockInfoList);
+        objectMap.put("data", stockListResult);
+
 
         return new ResponseEntity(objectMap, HttpStatus.OK);
     }

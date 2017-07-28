@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long>{
@@ -15,8 +16,12 @@ public interface StockRepository extends JpaRepository<Stock, Long>{
 
     Stock save(Stock stock);
 
+    List<Stock> findAll();
+
+
     @Modifying
     @Transactional
     @Query("update Stock s set s.stockOut = s.stockOut + ?1 where s.productId= ?2")
     int stockOutBySku(long stockOut, long sku);
+
 }

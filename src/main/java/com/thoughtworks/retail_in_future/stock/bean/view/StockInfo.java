@@ -3,34 +3,43 @@ package com.thoughtworks.retail_in_future.stock.bean.view;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.thoughtworks.retail_in_future.stock.bean.Product;
+import com.thoughtworks.retail_in_future.stock.bean.Stock;
 
 public class StockInfo {
 
-
-    @JsonIgnore
-    private Product product;
 
     @JsonProperty("SKU")
     private long sku;
     private String productName;
     private String productCode;
 
-    private String amount;
-    private String stockOut;
+    private long amount;
+    private long stockOut;
     private float price;
 
-    @JsonProperty("product")
-    @JsonIgnore
-    public Product getProduct() {
-        return product;
+    public StockInfo() {
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public StockInfo(Product product) {
+        this.sku = product.getId();
+        this.productName = product.getName();
+        this.productCode = product.getCode();
+    }
+
+
+    public StockInfo(Stock stock) {
+        Product product = stock.getProduct();
+        this.sku = product.getId();
+        this.productName = product.getName();
+        this.productCode = product.getCode();
+        this.price = stock.getPrice();
+        this.amount = stock.getAmount();
+        this.stockOut = stock.getStockOut();
+        this.price = stock.getPrice();
     }
 
     public long getSku() {
-        return product.getId();
+        return sku;
     }
 
     public void setSku(long sku) {
@@ -38,36 +47,34 @@ public class StockInfo {
     }
 
     public String getProductName() {
-        return product.getName();
-
+        return productName;
     }
-
 
     public void setProductName(String productName) {
         this.productName = productName;
     }
 
     public String getProductCode() {
-        return product.getCode();
+        return productCode;
     }
 
     public void setProductCode(String productCode) {
         this.productCode = productCode;
     }
 
-    public String getAmount() {
+    public long getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(long amount) {
         this.amount = amount;
     }
 
-    public String getStockOut() {
+    public long getStockOut() {
         return stockOut;
     }
 
-    public void setStockOut(String stockOut) {
+    public void setStockOut(long stockOut) {
         this.stockOut = stockOut;
     }
 
