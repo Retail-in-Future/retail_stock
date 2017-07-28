@@ -69,15 +69,23 @@ public class StockController {
             @ApiParam(value = "sku", required = true)
             @PathVariable("sku") long sku
     ) throws NotFoundException {
+        Product product = stockService.findProductBySku(sku);
 
         Stock stock = stockService.find(sku);
 
+        StockInfo stockInfo;
+
+        if(stock != null){
+            stockInfo = new StockInfo(stock);
+        }else{
+            stockInfo = new StockInfo(product);
+        }
+
         Map<String, Object> objectMap = new HashMap<>();
         objectMap.put("result", 1);
-        objectMap.put("data", new ObjectMapper().convertValue(stock, StockInfo.class));
+        objectMap.put("data", stockInfo);
 
         return new ResponseEntity(objectMap, HttpStatus.OK);
-
     }
 
     @ApiOperation(value = "create stock", response = Stock.class)

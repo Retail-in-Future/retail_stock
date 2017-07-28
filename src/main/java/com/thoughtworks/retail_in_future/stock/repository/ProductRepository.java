@@ -8,9 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import javax.transaction.Transactional;
 import java.util.List;
 
-/**
- * Created by xyduan on 7/28/17.
- */
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
+    Product findFirstById(long sku);
 }

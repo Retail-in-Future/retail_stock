@@ -23,10 +23,6 @@ public class StockService {
     public Stock find(long sku) throws NotFoundException {
         Stock stock = stockRepository.findFirstByProductId(sku);
 
-        if(stock == null){
-            throw  new NotFoundException("Not found product by the sku", sku);
-        }
-
         return stock;
 
     }
@@ -53,5 +49,17 @@ public class StockService {
 
     public List<Product> findAllProduct(){
         return productRepository.findAll();
+    }
+
+    public Product findProductBySku(long sku) throws NotFoundException {
+
+
+        Product product = productRepository.findFirstById(sku);
+
+        if(product == null){
+            throw  new NotFoundException("Not found product by the sku", sku);
+        }
+
+        return product;
     }
 }
