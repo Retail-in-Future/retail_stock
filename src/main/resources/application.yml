@@ -11,6 +11,6 @@ server:
 spring:
   profiles: sit
   datasource:
-      url: jdbc:mysql://127.0.0.1:3306/retail
-      username: futureretail
-      password: futureretail
+      url: jdbc:mysql://172.31.18.248:3306/retail
+      username: root
+      password: retail
