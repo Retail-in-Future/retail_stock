@@ -21,6 +21,15 @@ repositories {
     mavenCentral()
 }
 
+task bootRunSit(type: org.springframework.boot.gradle.run.BootRunTask, dependsOn: 'build') {
+    group = 'Application'
+    doFirst() {
+        main = project.mainClassName
+        classpath = sourceSets.main.runtimeClasspath
+        systemProperty 'spring.profiles.active', 'sit'
+    }
+}
+
 
 dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-rest', version:'1.3.5.RELEASE'
