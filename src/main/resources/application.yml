@@ -2,9 +2,9 @@ spring:
     application:
             name: ratail-amount
     datasource:
-        url: jdbc:mysql://localhost:3306/retail
-        username: root
-        password: 123456
+        url: jdbc:mysql://54.255.182.198:3306/retail
+        username: retail
+        password: retail__123
 server:
   port: 10002
 ---
