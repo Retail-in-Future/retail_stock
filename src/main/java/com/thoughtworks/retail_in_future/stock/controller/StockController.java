@@ -33,31 +33,26 @@ public class StockController {
     @RequestMapping(method= RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Map<String, Object>> list(){
 
-        List<StockInfo> allProduct = new ArrayList<>();
-        List<Stock> stockList = stockService.findAll();
-
-        List<Long> productIds = stockList.stream().map(s -> s.getProductId()).collect(toList());
         List<Product> productList = stockService.findAllProduct();
-
-        List<StockInfo> productWithoutStock = productList.stream().filter(s -> !productIds.contains(s.getId())).map(product -> new StockInfo(product)).collect(toList());
-
-        List<StockInfo> productWithStock = stockList.
-                stream().map(stock -> new StockInfo(stock))
-                .collect(toList());
-
-
-        allProduct.addAll(productWithoutStock);
-        allProduct.addAll(productWithStock);
 
         Map<String, Object> objectMap = new HashMap<>();
 
-        List<StockInfo> stockListResult = allProduct.stream()
-                .sorted((e1, e2) -> Long.compare(e1.getSku(),
-                        e2.getSku())).collect(toList());
+        List<StockInfo> stockList = productList
+                .stream()
+                .map(product -> {
+                    StockInfo stockInfo = new StockInfo(product);
+                    Stock stock = stockService.find(product.getId());
+                    if(stock != null){
+                        stockInfo.setAmount(stock.getAmount());
+                        stockInfo.setPrice(stock.getPrice());
+                    }
+                    return stockInfo;
+                })
+                .sorted((e1, e2) -> Long.compare(e1.getSku(),e2.getSku()))
+                .collect(toList());
 
         objectMap.put("result", 1);
-        objectMap.put("data", stockListResult);
-
+        objectMap.put("data", stockList);
 
         return new ResponseEntity(objectMap, HttpStatus.OK);
     }
@@ -76,6 +71,7 @@ public class StockController {
         StockInfo stockInfo;
 
         if(stock != null){
+            stock.setProduct(product);
             stockInfo = new StockInfo(stock);
         }else{
             stockInfo = new StockInfo(product);
@@ -86,6 +82,22 @@ public class StockController {
         objectMap.put("data", stockInfo);
 
         return new ResponseEntity(objectMap, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "get the amount by sku", response = ResponseEntity.class)
+    @RequestMapping(value = "{sku}/amount", method= RequestMethod.GET)
+    public long getSku(
+            @ApiParam(value = "sku", required = true)
+            @PathVariable("sku") long sku
+    ) throws NotFoundException {
+
+        Stock stock = stockService.find(sku);
+
+        if(stock != null){
+            return stock.getAmount();
+        }else{
+            return 0;
+        }
     }
 
     @ApiOperation(value = "create stock", response = Stock.class)
@@ -100,17 +112,59 @@ public class StockController {
     }
 
     @ApiOperation(value = "update stock", response = Stock.class)
-    @RequestMapping(value = "{sku}/", method= RequestMethod.PUT, produces = "application/json")
-    public int increase(
+    @RequestMapping(value = "{sku}/stockOut", method= RequestMethod.PUT, produces = "application/json")
+    public ResponseEntity increase(
             @ApiParam(value = "sku", required = true)
             @PathVariable("sku") long sku,
             @RequestParam(value="stockOut", required = false) Long stockOut
 
     ) throws NotFoundException {
 
-        //TODO check the sku is existed in the Product
-        long outAmount = stockOut == null ? 1 : stockOut;
-        return stockService.stockOut(outAmount, sku);
+        long amountOut = stockOut == null ? 1 : stockOut;
+        stockService.updateStockOut(amountOut, sku);
+
+        Map<String, Object> objectMap = new HashMap<>();
+        objectMap.put("result", 1);
+        objectMap.put("data", amountOut);
+
+        return new ResponseEntity(objectMap, HttpStatus.OK);
+
+    }
+
+    @ApiOperation(value = "update amount", response = Stock.class)
+    @RequestMapping(value = "{sku}/amount", method= RequestMethod.PUT, produces = "application/json")
+    public ResponseEntity updateAmount(
+            @ApiParam(value = "sku", required = true)
+            @PathVariable("sku") long sku,
+            @RequestParam(value="amount", required = false) Long amount
+
+    ) throws NotFoundException {
+
+        stockService.updateAmount(amount, sku);
+
+        Map<String, Object> objectMap = new HashMap<>();
+        objectMap.put("result", 1);
+        objectMap.put("data", amount);
+
+        return new ResponseEntity(objectMap, HttpStatus.OK);
+    }
+
+    @ApiOperation(value = "update price", response = Stock.class)
+    @RequestMapping(value = "{sku}/price", method= RequestMethod.PUT, produces = "application/json")
+    public ResponseEntity updatePrice(
+            @ApiParam(value = "sku", required = true)
+            @PathVariable("sku") long sku,
+            @RequestParam(value="price", required = false) Float price
+
+    ) throws NotFoundException {
+
+        stockService.updatePrice(price, sku);
+
+        Map<String, Object> objectMap = new HashMap<>();
+        objectMap.put("result", 1);
+        objectMap.put("data", price);
+
+        return new ResponseEntity(objectMap, HttpStatus.OK);
     }
 
 

@@ -16,6 +16,8 @@ public class Stock {
 
     @ApiModelProperty(hidden = true)
     @JsonIgnore
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
 
     @JsonIgnore
@@ -83,7 +85,7 @@ public class Stock {
         this.price = price;
     }
 
-    @Column(name="stockOut")
+    @Column(name="stock_out")
     public long getStockOut() {
         return stockOut;
     }

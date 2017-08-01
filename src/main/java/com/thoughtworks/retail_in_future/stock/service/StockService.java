@@ -20,11 +20,8 @@ public class StockService {
     @Autowired
     private ProductRepository productRepository;
 
-    public Stock find(long sku) throws NotFoundException {
-        Stock stock = stockRepository.findFirstByProductId(sku);
-
-        return stock;
-
+    public Stock find(long sku) {
+        return stockRepository.findFirstByProductId(sku);
     }
 
 
@@ -32,14 +29,11 @@ public class StockService {
         return stockRepository.save(stock);
     }
 
-    public int stockOut(long stockOut, long sku) throws NotFoundException {
+    public int updateStockOut(long stockOut, long sku) throws NotFoundException {
 
-        Stock stock = find(sku);
-        if(stock == null){
-            throw new NotFoundException("NOT FOUND SKU", sku);
-        }
+        findOrCreateBySku(sku);
 
-        return stockRepository.stockOutBySku(stockOut, sku);
+        return stockRepository.setStockOutBySku(stockOut, sku);
 
     }
 
@@ -61,5 +55,34 @@ public class StockService {
         }
 
         return product;
+    }
+
+    public int updateAmount(Long amount, long sku) throws NotFoundException {
+
+        findOrCreateBySku(sku);
+
+        return stockRepository.setAmountBySku(amount, sku);
+    }
+
+    private void findOrCreateBySku(long sku) throws NotFoundException {
+
+        Stock stock = find(sku);
+
+        if(stock == null){
+            Product productBySku = findProductBySku(sku);
+            stock = new Stock();
+            stock.setProductId(sku);
+            stock.setProduct(productBySku);
+            save(stock);
+        }
+
+    }
+
+
+    public int updatePrice(Float price, long sku) throws NotFoundException {
+
+        findOrCreateBySku(sku);
+
+        return stockRepository.setPriceBySku(price, sku);
     }
 }

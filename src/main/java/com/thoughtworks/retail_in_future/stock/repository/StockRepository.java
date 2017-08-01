@@ -22,6 +22,16 @@ public interface StockRepository extends JpaRepository<Stock, Long>{
     @Modifying
     @Transactional
     @Query("update Stock s set s.stockOut = s.stockOut + ?1 where s.productId= ?2")
-    int stockOutBySku(long stockOut, long sku);
+    int setStockOutBySku(long stockOut, long sku);
 
+    @Modifying
+    @Transactional
+    @Query("update Stock s set s.amount = ?1 where s.productId= ?2")
+    int setAmountBySku(long amount, long sku);
+
+
+    @Modifying
+    @Transactional
+    @Query("update Stock s set s.price = ?1 where s.productId= ?2")
+    int setPriceBySku(Float price, long sku);
 }
